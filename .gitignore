@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+
+# Build artifacts
+build/
+dist/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# I use AI agent to improve wording and make some boring stuff, but prefer to not commit the instructions.
+AGENTS.md
+
