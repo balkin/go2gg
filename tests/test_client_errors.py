@@ -39,3 +39,26 @@ async def test_client_raises_request_error() -> None:
         async with Go2Client(api_key="test-key") as client:
             with pytest.raises(RequestError):
                 await client.links.get("lnk_abc123")
+
+
+@pytest.mark.asyncio
+async def test_non_json_error_body_falls_back_to_plain_text_message() -> None:
+    with aioresponses() as mock:
+        mock.get(
+            f"{BASE_URL}/links/lnk_abc123",
+            status=500,
+            body="gateway unavailable",
+            headers={"Content-Type": "text/plain"},
+        )
+
+        async with Go2Client(api_key="test-key") as client:
+            with pytest.raises(APIError) as excinfo:
+                await client.links.get("lnk_abc123")
+
+        assert excinfo.value.status_code == 500
+        assert excinfo.value.message == "gateway unavailable"
+
+
+def test_api_error_string_representation() -> None:
+    error = APIError(status_code=409, message="The slug is already in use.", error_code="SLUG_EXISTS")
+    assert str(error) == "HTTP 409 (SLUG_EXISTS): The slug is already in use."

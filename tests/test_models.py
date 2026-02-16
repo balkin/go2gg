@@ -49,3 +49,15 @@ def test_link_stats_parsing() -> None:
     assert stats.by_browser and stats.by_browser[0].browser == "Chrome"
     assert stats.by_referrer and stats.by_referrer[0].referrer == "twitter.com"
     assert stats.over_time and stats.over_time[0].date == "2024-06-01"
+
+
+def test_link_stats_ignores_non_list_aggregates() -> None:
+    payload = {
+        "totalClicks": 10,
+        "byCountry": {"country": "US", "count": 1},
+        "byDevice": "desktop",
+    }
+    stats = LinkStats.from_dict(payload)
+    assert stats.total_clicks == 10
+    assert stats.by_country is None
+    assert stats.by_device is None

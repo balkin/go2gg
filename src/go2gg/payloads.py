@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Helpers for request/response payload shaping."""
+
+from __future__ import annotations
 
 from typing import Any
 

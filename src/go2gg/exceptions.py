@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Custom exceptions for the go2.gg SDK."""
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any

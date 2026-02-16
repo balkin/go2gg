@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Typed models for go2.gg API responses."""
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any
@@ -11,6 +11,7 @@ from go2gg.payloads import get_first
 @dataclass(frozen=True)
 class Link:
     """Represents a short link returned by the API."""
+
     id: str
     short_url: str | None = None
     destination_url: str | None = None
@@ -27,7 +28,7 @@ class Link:
     raw: dict[str, Any] | None = None
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Link":
+    def from_dict(cls, data: dict[str, Any]) -> Link:
         """Create a Link from an API response dictionary.
 
         Args:
@@ -60,13 +61,14 @@ class Link:
 @dataclass(frozen=True)
 class LinkListMeta:
     """Pagination metadata for link listings."""
+
     page: int | None = None
     per_page: int | None = None
     total: int | None = None
     has_more: bool | None = None
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "LinkListMeta":
+    def from_dict(cls, data: dict[str, Any]) -> LinkListMeta:
         """Create metadata from an API response dictionary.
 
         Args:
@@ -86,6 +88,7 @@ class LinkListMeta:
 @dataclass(frozen=True)
 class LinkPage:
     """A page of links and optional pagination metadata."""
+
     data: list[Link]
     meta: LinkListMeta | None = None
 
@@ -93,6 +96,7 @@ class LinkPage:
 @dataclass(frozen=True)
 class CountByCountry:
     """Aggregated click counts by country code."""
+
     country: str
     count: int
 
@@ -100,6 +104,7 @@ class CountByCountry:
 @dataclass(frozen=True)
 class CountByDevice:
     """Aggregated click counts by device type."""
+
     device: str
     count: int
 
@@ -107,6 +112,7 @@ class CountByDevice:
 @dataclass(frozen=True)
 class CountByBrowser:
     """Aggregated click counts by browser name."""
+
     browser: str
     count: int
 
@@ -114,6 +120,7 @@ class CountByBrowser:
 @dataclass(frozen=True)
 class CountByReferrer:
     """Aggregated click counts by referrer."""
+
     referrer: str
     count: int
 
@@ -121,6 +128,7 @@ class CountByReferrer:
 @dataclass(frozen=True)
 class CountByDate:
     """Aggregated click counts by date."""
+
     date: str
     count: int
 
@@ -128,6 +136,7 @@ class CountByDate:
 @dataclass(frozen=True)
 class LinkStats:
     """Analytics data for a link."""
+
     total_clicks: int | None = None
     last_clicked_at: str | None = None
     by_country: list[CountByCountry] | None = None
@@ -137,7 +146,7 @@ class LinkStats:
     over_time: list[CountByDate] | None = None
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "LinkStats":
+    def from_dict(cls, data: dict[str, Any]) -> LinkStats:
         """Create analytics data from an API response dictionary.
 
         Args:

@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Async client for the go2.gg Links API."""
+
+from __future__ import annotations
 
 import asyncio
 import os
@@ -60,9 +60,7 @@ class Go2Client:
         """Initialize the client and configure authentication."""
         resolved_key = api_key or os.getenv("GO2GG_API_KEY")
         if not resolved_key:
-            raise ValueError(
-                "API key is required. Provide api_key or set GO2GG_API_KEY in the environment."
-            )
+            raise ValueError("API key is required. Provide api_key or set GO2GG_API_KEY in the environment.")
         if not base_url:
             raise ValueError("base_url is required")
 
@@ -84,7 +82,7 @@ class Go2Client:
 
         self.links = LinksAPI(self)
 
-    async def __aenter__(self) -> "Go2Client":
+    async def __aenter__(self) -> Go2Client:
         """Enter the async context manager."""
         return self
 
@@ -131,7 +129,7 @@ class Go2Client:
                     payload: Any
                     try:
                         payload = await response.json(content_type=None)
-                    except aiohttp.ContentTypeError:
+                    except (aiohttp.ContentTypeError, ValueError):
                         payload = {"message": await response.text()}
 
                     if response.status >= 400:
@@ -168,7 +166,7 @@ class Go2Client:
             return
         delay = self._retry_delay
         if self._retry_backoff:
-            delay *= 2 ** attempt
+            delay *= 2**attempt
         await asyncio.sleep(delay)
 
     @staticmethod
@@ -187,9 +185,7 @@ class Go2Client:
                 or payload.get("errorCode")
                 or (error.get("code") if isinstance(error, dict) else None)
             )
-            details = (
-                payload.get("details") if isinstance(payload.get("details"), dict) else None
-            )
+            details = payload.get("details") if isinstance(payload.get("details"), dict) else None
             return APIError(status_code=status, message=str(message), error_code=code, details=details)
 
         return APIError(status_code=status, message=str(payload), error_code=None, details=None)

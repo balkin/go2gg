@@ -1,12 +1,12 @@
-from __future__ import annotations
-
 """Links API resource methods."""
 
+from __future__ import annotations
+
+from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 from go2gg.payloads import map_snake_keys
 from go2gg.types import Link, LinkListMeta, LinkPage, LinkStats
-
 
 if TYPE_CHECKING:
     from go2gg.client import Go2Client
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 class LinksAPI:
     """Links API operations."""
 
-    def __init__(self, client: "Go2Client") -> None:
+    def __init__(self, client: Go2Client) -> None:
         """Create a Links API accessor.
 
         Args:
@@ -31,7 +31,7 @@ class LinksAPI:
         domain: str | None = None,
         title: str | None = None,
         description: str | None = None,
-        tags: list[str] | None = None,
+        tags: Sequence[str] | None = None,
         password: str | None = None,
         expires_at: str | None = None,
         click_limit: int | None = None,
@@ -161,7 +161,7 @@ class LinksAPI:
         domain: str | None = None,
         title: str | None = None,
         description: str | None = None,
-        tags: list[str] | None = None,
+        tags: Sequence[str] | None = None,
         password: str | None = None,
         expires_at: str | None = None,
         click_limit: int | None = None,
